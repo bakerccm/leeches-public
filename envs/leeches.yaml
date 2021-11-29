@@ -1,0 +1,15 @@
+name: leeches
+channels:
+ - r
+ - bioconda
+ - conda-forge
+ - defaults
+dependencies:
+ - r-base>=2.14.0
+ - r-here
+ - r-tidyverse
+ - r-ggrepel
+ - r-devtools
+ - r-coda>0.13
+ - r-rjags>=3-13
+ - r-lattice
