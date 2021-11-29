@@ -1,0 +1,16 @@
+Class & Scientific name & Common name & IUCN category & LSU occupancy & SSU occupancy \\
+Amphibians & \textit{Bufo pageoti}  & -- (缅甸溪蟾) & NT & 0.640 (0.541 - 0.761) & 0.704 (0.574 - 0.852) \\
+Amphibians & \textit{Leptobrachium ailaonicum}  & -- (哀牢髭蟾) & NT & 0.561 (0.191 - 0.861) & 0.737 (0.378 - 1.000) \\
+Amphibians & \textit{Nanorana maculosa}  & Piebald Spiny Frog (花棘蛙) & VU & 0.560 (0.158 - 0.866) & -- \\
+Amphibians & \textit{Nanorana unculuanus}  & Yunnan Asian Frog (棘肛蛙) & VU & 0.556 (0.455 - 0.660) & 0.595 (0.498 - 0.699) \\
+Amphibians & \textit{Nanorana yunnanensis}  & Yunnan Spiny Frog (云南棘蛙) & EN & 0.584 (0.321 - 0.813) & 0.552 (0.239 - 0.986) \\
+Amphibians & \textit{Oreolalax jingdongensis}  & Jingdong Toothed Toad (景东齿蟾) & VU & -- & 0.602 (0.483 - 0.727) \\
+Amphibians & \textit{Theloderma bicolor}  & Chapa Bug-eyed Frog (双色棱皮树蛙) & EN & 0.550 (0.153 - 0.856) & -- \\
+Birds & \textit{Cyanoptila cumatilis}  & Zappey's Flycatcher (白腹暗蓝鹟) & NT & 0.206 (0.014 - 0.699) & 0.234 (0.038 - 0.722) \\
+Birds & \textit{Syrmaticus humiae}  & Mrs Hume's Pheasant (黑颈长尾雉) & NT & -- & 0.185 (0.024 - 0.589) \\
+Mammals & \textit{Capricornis milneedwardsii}  & Mainland Serow (中华鬣羚) & VU & 0.188 (0.019 - 0.584) & 0.181 (0.019 - 0.646) \\
+Mammals & \textit{Catopuma temminckii}  & Asiatic Golden Cat (金猫) & NT & -- & 0.137 (0.010 - 0.474) \\
+Mammals & \textit{Elaphodus cephalophus}  & Tufted Deer (毛冠鹿) & NT & 0.199 (0.029 - 0.517) & -- \\
+Mammals & \textit{Macaca arctoides}  & Stump-tailed Macaque (短尾猴) & VU & 0.243 (0.043 - 0.608) & -- \\
+Mammals & \textit{Rusa unicolor}  & Sambar (水鹿) & VU & 0.200 (0.014 - 0.632) & -- \\
+Mammals & \textit{Ursus thibetanus}  & Asiatic Black Bear (亚洲黑熊) & VU & 0.270 (0.038 - 0.713) & 0.173 (0.014 - 0.646) \\

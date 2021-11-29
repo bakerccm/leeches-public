@@ -1,0 +1,21 @@
+Rank & Scientific name & Common name & IUCN category & Occupancy (95\% BCI) \\
+1 & Megophryidae sp6 & -- & -- & 0.856 (0.526 - 1.000) \\
+2 & \textit{Tylototriton verrucosus} & Himalayan Salamander (棕黑疣螈) & LC & 0.798 (0.545 - 1.000) \\
+3 & \textit{Leptobrachium ailaonicum} & NA (哀牢髭蟾) & NT & 0.737 (0.378 - 1.000) \\
+4 & \textit{Cynops cyanurus} & Cyan Newt (蓝尾蝾螈) & LC & 0.727 (0.191 - 1.000) \\
+5 & \textit{Bufo pageoti} & NA (缅甸溪蟾) & NT & 0.704 (0.574 - 0.852) \\
+6 & Megophryidae sp5 & -- & -- & 0.696 (0.555 - 0.847) \\
+7 & \textit{Rana chaochiaoensis} & Chaochiao Brown Frog (昭觉林蛙) & LC & 0.679 (0.335 - 1.000) \\
+8 & Megophryidae sp3 & -- & -- & 0.676 (0.531 - 0.837) \\
+9 & \textit{Bos taurus} & NA (黄牛) & -- & 0.635 (0.550 - 0.718) \\
+10 & \textit{Bombina maxima} & NA (大蹼铃蟾) & -- & 0.623 (0.512 - 0.742) \\
+11 & \textit{Oreolalax jingdongensis} & Jingdong Toothed Toad (景东齿蟾) & VU & 0.602 (0.483 - 0.727) \\
+12 & \textit{Nanorana unculuanus} & Yunnan Asian Frog (棘肛蛙) & VU & 0.595 (0.498 - 0.699) \\
+13 & \textit{Capra hircus} & NA (山羊) & -- & 0.581 (0.455 - 0.722) \\
+14 & \textit{Glyphoglossus yunnanensis} & Yunnan Small Narrow-mouthed Frog (云南小狭口蛙) & LC & 0.580 (0.053 - 1.000) \\
+15 & Leiothrichidae sp1 & -- & -- & 0.563 (0.354 - 0.842) \\
+16 & \textit{Nanorana yunnanensis} & Yunnan Spiny Frog (云南棘蛙) & EN & 0.552 (0.239 - 0.986) \\
+17 & Anura sp1 & -- & -- & 0.506 (0.067 - 1.000) \\
+18 & \textit{Rhacophorus} sp1 & -- & -- & 0.476 (0.325 - 0.656) \\
+19 & \textit{Dremomys rufigenis} & Red-cheeked Squirrel (红颊长吻松鼠) & LC & 0.447 (0.306 - 0.627) \\
+20 & \textit{Muntiacus vaginalis} & Northern Red Muntjac (赤麂) & LC & 0.434 (0.239 - 0.794) \\
