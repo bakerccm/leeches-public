@@ -1,0 +1,114 @@
+model{
+
+# superpopulation model for metacommunity membership w[i]:
+    for (i in 1:num.species) {
+        w[i] ~ dbern(omega[g[i]])
+    }
+
+# ecological model for latent occurrence z[j,i] with occupancy covariates:
+    #   occ[1,j] = elev
+    #   occ[2,j] = tpi
+    #   occ[3,j] = road
+    #   occ[4,j] = stream
+    #   occ[5,j] = reserve
+    for (j in 1:num.sites) {
+        for(i in 1:num.species){
+            z[j,i] ~ dbern(w.psi[j,i])
+            w.psi[j,i] <- w[i] * psi[j,i] # only metacommunity members (w[i] = 1) can be present in any site j (z[j,i] = 1)
+            logit(psi[j,i]) <- beta0[i] + (beta[1,i] * occ[1,j]) + (beta[2,i] * occ[2,j]) + (beta[3,i] * occ[3,j]) + (beta[4,i] * occ[4,j]) + (beta[5,i] * occ[5,j])
+        }
+    }
+
+# observation model for observed data y[j,k,i] with detection covariates:
+    for(i in 1:num.species){
+        for (k in 1:num.reps) {
+            for (j in 1:num.sites) {
+                y[j,k,i] ~ dbern(z[j,i] * p[j,k,i])
+                p[j,k,i] <- 1 - pow(1 - r[j,k,i], numleeches[j,k]/100) # dividing numleeches by 100 avoids invalid parent node error
+                logit(r[j,k,i]) <- gamma0[i]
+            }
+        }
+    }
+
+# priors for data augmentation 'occupancy' parameter
+# get b parameter from model data so it can be supplied from command line
+    for(g in 1:num.species.groups){
+        omega[g] ~ dbeta(5,b)
+    }
+
+# priors for coefficients
+# g[i] allows different prior distributions for species groups, i.e. mammals/birds, amphibians/reptiles
+    for(i in 1:num.species){
+        # group beta0 and gamma0 together in array eta
+           beta0[i] <- eta[i,1]    # beta0[i] is species-specific intercept for occupancy
+           gamma0[i] <- eta[i,2]   # gamma0[i] is species-specific intercept for detection
+           eta[i, 1:2] ~ dmnorm.vcov(mu.eta[1:2,g[i]], sigma.eta[1:2,1:2,g[i]]) # mu.eta is a 2 x num.species.groups array; sigma.eta is a 2 x 2 x num.species.groups array
+        # priors for occupancy parameters
+            for(coef in 1:occupancy.slopes){
+                beta[coef,i] ~ dnorm(mu.beta[coef], pow(sigma.beta[coef], -2))
+            }
+    }
+
+# hyperpriors for coefficients i.e. community model
+
+    # note: dt(0,1,1) gives Cauchy distribution per Gelman 2006
+    # dt(0,1,1) T(0,) truncates this distribution at zero, giving the half-Cauchy per Gelman 2006
+
+    # mu.beta[...] ~ dt(0, pow(7.763179,-2), 1.566267) # chosen to give uniform prior on probability scale, per Dorazio 2011
+
+    # constant terms beta0 and gamma0
+    for(g in 1:num.species.groups){
+        # expected values
+            #  E(beta0) for group g is in mu.eta[1,g]
+            #  E(gamma0) for group g is in mu.eta[2,g]
+            for(v in 1:2){
+               mu.eta[v,g] ~ dt(0, pow(7.763179,-2), 1.566267) # chosen to give uniform prior on probability scale, per Dorazio 2011
+            }
+        # variance-covariance matrix
+            # sigma.eta is the variance-covariance matrix
+                sigma.eta[1,1,g] <- pow(sigma.beta0[g],2)
+                sigma.eta[1,2,g] <- sigma.beta0[g] * sigma.gamma0[g] * rho.beta0.gamma0[g]
+                sigma.eta[2,1,g] <- sigma.beta0[g] * sigma.gamma0[g] * rho.beta0.gamma0[g]
+                sigma.eta[2,2,g] <- pow(sigma.gamma0[g],2)
+            # parameters to go into variance-covariance matrix sigma.eta
+                sigma.beta0[g] ~ dt(0,1,1) T(0,) # half-Cauchy distribution, per Gelman 2006
+                sigma.gamma0[g] ~ dt(0,1,1) T(0,) # half-Cauchy distribution, per Gelman 2006
+                rho.beta0.gamma0[g] ~ dunif(-1,1)
+    }
+
+    # occupancy model slope coefficients
+    for(coef in 1:occupancy.slopes){
+        mu.beta[coef] ~ dt(0, pow(7.763179,-2), 1.566267) # chosen to give uniform prior on probability scale, per Dorazio 2011
+        sigma.beta[coef] ~ dt(0,1,1) T(0,) # half-Cauchy distribution, per Gelman 2006
+    }
+
+# priors for covariates to model missing data
+    for (j in 1:num.sites) {
+        # occupancy covariates
+            for(coef in 1:occupancy.slopes){
+                occ[coef,j] ~ dnorm(mu.occ[coef], pow(sigma.occ[coef], -2))
+            }
+        # detection covariates
+            for (k in 1:num.reps) {
+                numleeches[j,k] ~ dpois(lambda.numleeches)
+            }
+    }
+
+# hyperpriors for covariates to model missing data
+    # occupancy hyperpriors
+        for(coef in 1:occupancy.slopes){
+            mu.occ[coef] ~ dnorm(0, 0.01)
+            sigma.occ[coef] ~ dnorm(0, 0.01) T(0,)
+        }
+    # numleeches priors
+        lambda.numleeches ~ dunif(1,100)
+
+# derived quantities
+    Ntotal <- sum(w[])  # total metacommunity size
+
+# keep beta coefficients for detected species only
+    for (i in 1:num.detected.species) {
+        beta.keep[1:5,i] <- beta[1:5,i]
+    }
+
+}
