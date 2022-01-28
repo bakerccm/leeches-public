@@ -1,5 +1,7 @@
 # Analysis code for Ailaoshan study
 
+[![DOI](https://zenodo.org/badge/432829320.svg)](https://zenodo.org/badge/latestdoi/432829320)
+
 ## Citation
 
 Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\*. Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications**
