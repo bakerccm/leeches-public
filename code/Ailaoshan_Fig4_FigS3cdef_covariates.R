@@ -34,17 +34,19 @@ library("cowplot") # to layout individual plots in a grid
                 mutate(consensus.class  = ifelse(consensus.class == "reptiles", "squamates", consensus.class))
     })
 
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("amphibians" = rgb(0, 158, 115, maxColorValue = 255), # bluish green
+                     "birds" = rgb(86, 180, 233, maxColorValue = 255), # sky blue
+                     "mammals" = rgb(230, 159, 0, maxColorValue = 255), # orange
+                     "squamates" = rgb(0, 0, 0, maxColorValue = 255), # black
+                     "mammals/birds" = rgb(230, 159, 0, maxColorValue = 255), # orange
+                     "amphibians/squamates" = rgb(0, 158, 115, maxColorValue = 255)) # bluish green
+
 ########################################################################################
 # generate individual plots
 
 plot.list <- list()
-
-    # set colors for taxonomic groups in community plots to avoid confusion with taxonomic classes
-        group.colors <- c("mammals/birds" = "#00BFC4", "amphibians/squamates" = "#F8766D")
-
-        # ggplot colors
-        # hue_pal()(2) # "#F8766D" "#00BFC4"
-        # show_col(hue_pal()(2))
 
 # LSU community
 
@@ -52,19 +54,19 @@ plot.list <- list()
         ggplot(aes(x=`elevation (m)`)) +
             geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`, fill = group), alpha = 0.4) +
             geom_line(aes(y = mean, col = group)) + labs(y = "mean occupancy") +
-            theme(legend.title = element_blank()) + scale_fill_manual(values = group.colors) + scale_color_manual(values = group.colors)
+            theme(legend.title = element_blank()) + scale_fill_manual(values = plot.colors) + scale_color_manual(values = plot.colors)
 
     plot.list$LSU.community.reserve <- LSU.community.predictions$occupancy.reserve %>%
         ggplot(aes(x=`distance to reserve edge (m)`)) +
             geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`, fill = group), alpha = 0.4) +
             geom_line(aes(y = mean, col = group)) + labs(y = "mean occupancy") +
-            theme(legend.title = element_blank()) + scale_fill_manual(values = group.colors) + scale_color_manual(values = group.colors)
+            theme(legend.title = element_blank()) + scale_fill_manual(values = plot.colors) + scale_color_manual(values = plot.colors)
 
     plot.list$LSU.community.detection <- LSU.community.predictions$detection %>%
         ggplot(aes(x=`number of leeches`)) +
             geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`, fill = group), alpha = 0.4) +
             geom_line(aes(y = mean, col = group)) + labs(y = "mean detection") +
-            theme(legend.title = element_blank()) + scale_fill_manual(values = group.colors) + scale_color_manual(values = group.colors)
+            theme(legend.title = element_blank()) + scale_fill_manual(values = plot.colors) + scale_color_manual(values = plot.colors)
 
 # SSU community
 
@@ -72,38 +74,38 @@ plot.list <- list()
         ggplot(aes(x=`elevation (m)`)) +
             geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`, fill = group), alpha = 0.4) +
             geom_line(aes(y = mean, col = group)) + labs(y = "mean occupancy") +
-            theme(legend.title = element_blank()) + scale_fill_manual(values = group.colors) + scale_color_manual(values = group.colors)
+            theme(legend.title = element_blank()) + scale_fill_manual(values = plot.colors) + scale_color_manual(values = plot.colors)
 
     plot.list$SSU.community.detection <- SSU.community.predictions$detection %>%
         ggplot(aes(x=`number of leeches`)) +
             geom_ribbon(aes(ymin = `2.5%`, ymax = `97.5%`, fill = group), alpha = 0.4) +
             geom_line(aes(y = mean, col = group)) + labs(y = "mean detection") +
-            theme(legend.title = element_blank()) + scale_fill_manual(values = group.colors) + scale_color_manual(values = group.colors)
+            theme(legend.title = element_blank()) + scale_fill_manual(values = plot.colors) + scale_color_manual(values = plot.colors)
 
 # LSU individual
 
     plot.list$LSU.individual.elevation <- LSU.individual.predictions$elev %>%
         ggplot(aes(x=elev.unscaled, y=`estimated occupancy`, group = OTU, color = consensus.class)) +
-        geom_line() + labs(x = "elevation (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank())
+        geom_line() + labs(x = "elevation (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank()) + scale_color_manual(values = plot.colors)
 
     plot.list$LSU.individual.reserve <- LSU.individual.predictions$reserve %>%
         ggplot(aes(x=reserve.unscaled, y=`estimated occupancy`, group = OTU, color = consensus.class)) +
-        geom_line() + labs(x = "distance to reserve edge (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank())
+        geom_line() + labs(x = "distance to reserve edge (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank()) + scale_color_manual(values = plot.colors)
 
     plot.list$LSU.individual.detection <- LSU.individual.predictions$numleeches %>%
         ggplot(aes(x=leeches, y=`estimated detection`, group = OTU, color = consensus.class)) +
         geom_line() + labs(x = "number of leeches", y = "detection", color = "taxonomic group") + theme(legend.title = element_blank()) +
-        scale_y_continuous(breaks = seq(0, 0.9, 0.3))
+        scale_y_continuous(breaks = seq(0, 0.9, 0.3)) + scale_color_manual(values = plot.colors)
 
 # SSU individual
 
     plot.list$SSU.individual.elevation <- SSU.individual.predictions$elev %>%
         ggplot(aes(x=elev.unscaled, y=`estimated occupancy`, group = OTU, color = consensus.class)) +
-        geom_line() + labs(x = "elevation (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank())
+        geom_line() + labs(x = "elevation (m)", y = "occupancy", color = "taxonomic group") + theme(legend.title = element_blank()) + scale_color_manual(values = plot.colors)
 
     plot.list$SSU.individual.detection <- SSU.individual.predictions$numleeches %>%
         ggplot(aes(x=leeches, y=`estimated detection`, group = OTU, color = consensus.class)) +
-        geom_line() + labs(x = "number of leeches", y = "detection", color = "taxonomic group") + theme(legend.title = element_blank())
+        geom_line() + labs(x = "number of leeches", y = "detection", color = "taxonomic group") + theme(legend.title = element_blank()) + scale_color_manual(values = plot.colors)
 
 ########################################################################################
 # arrange occupancy plots in grid for Fig 4

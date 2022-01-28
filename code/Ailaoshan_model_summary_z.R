@@ -1,4 +1,4 @@
-# R code for postprocessing occupancy modelling results (model without z saved)
+# R code for postprocessing occupancy modelling results (model with z saved)
 
 library("tidyverse")
 library("jagsUI")
@@ -103,7 +103,7 @@ library("coda")
             select(Polygon_ID, everything(), -Polygon_ID_)
 
 # z varies by species and site
-    z.columns <- grep("^z.save\\[", varnames(output.mcmc))
+    z.columns <- grep("^z\\[", varnames(output.mcmc))
     z.output <- tibble(columns = z.columns) %>%
         mutate(var = varnames(output.mcmc)[columns])
     for (i in seq_along(z.output$columns)) {
@@ -113,7 +113,7 @@ library("coda")
     }
     z.output <- z.output %>% select(-columns) %>%
         # parse rownames into indexes for Polygon_ID and OTU
-            mutate(var = sub("z.save\\[","",var)) %>% mutate(var = sub("\\]","",var)) %>%
+            mutate(var = sub("z\\[","",var)) %>% mutate(var = sub("\\]","",var)) %>%
             separate(var, sep=',', into=c("Polygon_ID_","OTU_")) %>%
             mutate(Polygon_ID_ = as.integer(Polygon_ID_), OTU_ = as.integer(OTU_)) %>%
         # convert Polygon_ID_ and OTU_ indexes back to our original labels
@@ -260,6 +260,7 @@ library("coda")
 model.summary <- list(
     estocc.output = estocc.output,
     Nsite.output = Nsite.output,
+    z.output = z.output,
     beta0.output = beta0.output,
     beta.output = beta.output,
     gamma0.output = gamma0.output,

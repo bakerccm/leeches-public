@@ -5,7 +5,6 @@ library("vegan")
 library("tidyverse")
 library("cowplot") # to layout individual plots in a grid
 # see https://wilkelab.org/cowplot/articles/aligning_plots.html for options
-library("scales") # to access hue_pal for ggplot colors
 
 ########################################################################################
 # get data
@@ -20,12 +19,20 @@ library("scales") # to access hue_pal for ggplot colors
 
     # model summaries generated with Ailaoshan_model_summary.R
     model.summary <- list(
-        LSU = readRDS(file = here("rds", "Ailaoshan_model_summary_final_LSU.rds")),
-        SSU = readRDS(file = here("rds", "Ailaoshan_model_summary_final_SSU.rds"))
+        LSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_LSU.rds")),
+        SSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_SSU.rds"))
     )
     estocc.output <- lapply(model.summary, FUN = function (X) as.data.frame(X$estocc.output))
     gamma0.output <- lapply(model.summary, FUN = function (X) as.data.frame(X$gamma0.output))
     rm(model.summary)
+
+########################################################################################
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("amphibians" = rgb(0, 158, 115, maxColorValue = 255), # bluish green
+                     "birds" = rgb(86, 180, 233, maxColorValue = 255), # sky blue
+                     "mammals" = rgb(230, 159, 0, maxColorValue = 255), # orange
+                     "squamates" = rgb(0, 0, 0, maxColorValue = 255)) # black
 
 ########################################################################################
 # add taxonomic info to cluster occupancy results
@@ -181,7 +188,7 @@ SSU.10kg.mammals <- cluster.occ$SSU %>%
                 theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.45), axis.title.x = element_blank()) +
                 theme(legend.title = element_blank()) +
                 labs(y = "estimated occupancy by elevation cluster") +
-                scale_color_manual(breaks = c("amphibians", "birds", "mammals", "reptiles"), values = hue_pal()(4))
+                scale_color_manual(breaks = c("amphibians", "birds", "mammals"), values = plot.colors)
     })
 
     # arrange plots in grid
@@ -225,7 +232,7 @@ SSU.10kg.mammals <- cluster.occ$SSU %>%
     # LSU plots
 
         # basic plot
-        suppl.clusterocc.plot.list$LSU
+        suppl.clusterocc.plot.list$LSU + scale_color_manual(values = plot.colors)
         ggsave(here("figures","FigS9_LSU_cluster_occupancy.pdf"), width = 12, height = 6, useDingbats = FALSE)
 
         # add domestic to help with annotating figure
@@ -239,7 +246,7 @@ SSU.10kg.mammals <- cluster.occ$SSU %>%
     # SSU plots
 
         # basic plot
-        suppl.clusterocc.plot.list$SSU
+        suppl.clusterocc.plot.list$SSU + scale_color_manual(values = plot.colors)
         ggsave(here("figures","FigS10_SSU_cluster_occupancy.pdf"), width = 12, height = 6, useDingbats = FALSE)
 
         # add domestic to help with annotating figure

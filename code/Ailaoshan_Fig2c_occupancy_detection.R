@@ -18,6 +18,13 @@ library("ggrepel")
     gamma0.output <- lapply(model.summary, FUN = function (X) as.data.frame(X$gamma0.output))
     rm(model.summary)
 
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("amphibians" = rgb(0, 158, 115, maxColorValue = 255), # bluish green
+                     "birds" = rgb(86, 180, 233, maxColorValue = 255), # sky blue
+                     "mammals" = rgb(230, 159, 0, maxColorValue = 255), # orange
+                     "squamates" = rgb(0, 0, 0, maxColorValue = 255)) # black
+
 # prepare occupancy and detection estimates
 
     occupancy.estimates <- bind_rows(LSU = estocc.output$LSU, SSU = estocc.output$SSU, .id = "dataset") %>%
@@ -56,14 +63,14 @@ library("ggrepel")
             ungroup() %>%
         # relabel (non-avian) reptiles as squamates
             mutate(consensus.class = ifelse(consensus.class == "Reptiles", "Squamates", consensus.class))
-        
+
 # draw plots
 
     OTU.occupancy.summary.plot <- OTU.occupancy.summary %>%
         mutate(consensus.class = tolower(consensus.class)) %>%
         ggplot(aes(x=occupancy_mean, y=detection_prob_mean, col=consensus.class, label=consensus.short)) + geom_point(alpha=0.5) +
             labs(x="fraction of patrol areas occupied", y = "detection probability per 100 leeches") +
-            theme(legend.title = element_blank()) +
+            theme(legend.title = element_blank()) + scale_color_manual(values = plot.colors) +
             facet_wrap("dataset") + xlim(0,1)
 
     # unlabelled

@@ -1,5 +1,5 @@
 # snakefile for workflow from Ailaoshan study
-# Baker et al. (2021) "Measuring Protected-area Vertebrate Biodiversity Using Leech iDNA"
+# Ji et al. (2021) "Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA"
 
 configfile: 'config/config.yaml'
 
@@ -246,10 +246,18 @@ rule model_summary:
         rds = 'rds/Ailaoshan_model_output_200_final_{dataset}.rds'
     output:
         'rds/Ailaoshan_model_summary_200_final_{dataset}.rds'
-    conda:
-        'envs/leeches.yaml'
     shell:
         'Rscript code/Ailaoshan_model_summary.R {input.rdata} {input.rds} {output}'
+
+# extract posterior summary information from final model (thinning, z saved)
+rule model_summary_z:
+    input:
+        rdata = 'rdata/Ailaoshan_model_data_200_final_{dataset}_z.rdata',
+        rds = 'rds/Ailaoshan_model_output_200_final_{dataset}_z.rds'
+    output:
+        'rds/Ailaoshan_model_summary_200_final_{dataset}_z.rds'
+    shell:
+        'Rscript code/Ailaoshan_model_summary_z.R {input.rdata} {input.rds} {output}'
 
 # extract posterior summary information for Ntotal from final models
 rule model_summary_Ntotal:
@@ -257,8 +265,6 @@ rule model_summary_Ntotal:
         expand('rds/Ailaoshan_model_output_{M}_final_{dataset}.rds', M = [100,150,200], dataset = ["LSU","SSU"])
     output:
         'rds/Ailaoshan_model_summary_Ntotal.rds'
-    conda:
-        'envs/leeches.yaml'
     shell:
         'Rscript code/Ailaoshan_model_summary_Ntotal.R'
 
@@ -317,8 +323,8 @@ rule FigS4_richness:
 rule coinertia_etc:
     input:
         'rdata/Ailaoshan_OTU_table.rdata',
-        'rds/Ailaoshan_model_summary_200_final_LSU.rds',
-        'rds/Ailaoshan_model_summary_200_final_SSU.rds'
+        'rds/Ailaoshan_model_summary_200_final_LSU_z.rds',
+        'rds/Ailaoshan_model_summary_200_final_SSU_z.rds'
     shell:
         'Rscript code/Ailaoshan_coinertia_etc.R'
 

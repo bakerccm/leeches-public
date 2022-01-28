@@ -6,7 +6,6 @@ library("sf")
 library("raster")
 library("sp")
 library("tidyverse")
-library("scales") # to get hue_pal()
 library("dendextend") # for drawing trees
 library("rcompanion") # for Cramer's V
 
@@ -25,6 +24,16 @@ load(file=here("rdata","Ailaoshan_gis.rdata"))
 
 # environmental data
 load(here("rdata","Ailaoshan_environmental.rdata"))
+
+########################################################################################
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("high" = rgb(240, 228, 66, maxColorValue = 255), # yellow
+                     "intermediate" = rgb(213, 94, 0, maxColorValue = 255), # vermillion
+                     "low" = rgb(0, 114, 178, maxColorValue = 255)) # blue
+
+    contour.colors <- c("elevation" = rgb(212, 17, 89, maxColorValue = 255), # red
+                 "reserve" = rgb(26, 133, 255, maxColorValue = 255)) # blue
 
 ########################################################################################
 # good match in distances across datasets
@@ -74,7 +83,7 @@ load(here("rdata","Ailaoshan_environmental.rdata"))
     # draw plots
         lapply(names(jaccard.sites.tree), function(X) {
             jaccard.sites.tree[[X]] %>%
-                set("branches_k_color", hue_pal()(3), k=3) %>%
+                set("branches_k_color", plot.colors, k=3) %>%
                 set("labels_cex", 0.3) %>% set("branches_lwd", 0.5) %>%
                 as.ggdend() %>% ggplot(horiz = TRUE)
             ggsave(tree.filesnames[[X]], width=4, height=12, useDingbats = FALSE)
@@ -82,26 +91,25 @@ load(here("rdata","Ailaoshan_environmental.rdata"))
 
 # ordinations for sites
 
-    set.seed(1)
-    nmds.sites <- lapply(jaccard.site, function (X) metaMDS(as.dist(1-X), k=2, trymax = 200))
+set.seed(1)
+nmds.sites <- lapply(jaccard.site, function (X) metaMDS(as.dist(1-X), k=2, trymax = 200))
 
-    lapply(nmds.sites, function (X) X$stress) # LSU: 0.08808181; SSU: 0.1058787
+lapply(nmds.sites, function (X) X$stress) # LSU: 0.08808181; SSU: 0.1058787
 
-    sites.env <- sapply(names(jaccard.site), simplify = FALSE, function (X) {
-        tibble(Polygon_ID = rownames(jaccard.site[[X]])) %>%
-            left_join(env.data %>% select(Polygon_ID, elevation_median, distance_to_nature_reserve_boundary), by = "Polygon_ID")
-    })
+sites.env <- sapply(names(jaccard.site), simplify = FALSE, function (X) {
+    tibble(Polygon_ID = rownames(jaccard.site[[X]])) %>%
+        left_join(env.data %>% select(Polygon_ID, elevation_median, distance_to_nature_reserve_boundary), by = "Polygon_ID")
+})
 
     # draw NMDS plots
     nmds.filesnames <- list(LSU = here("figures", "Fig5a_nmds_sites_LSU.pdf"), SSU = here("figures", "Fig5b_nmds_sites_SSU.pdf"))
-    # note: hue_pal()(3) gives the default ggplot colours so we can match the colours in other figures
     lapply(names(nmds.sites), function(X) {
         pdf(nmds.filesnames[[X]], width=4, height=4, useDingbats = FALSE)
         par(mar = c(4,4,0,0) + 0.1)
         plot(nmds.sites[[X]], display = "sites", type="n", xlab = "", ylab = "") # set up plot area
-        points(nmds.sites[[X]], col = hue_pal()(3)[jaccard.sites.cut[[X]]$jaccard.cut], pch=16)
-        ordisurf(nmds.sites[[X]], sites.env[[X]]$elevation_median, add=TRUE, col="red", labcex = 0) # set labels manually
-        ordisurf(nmds.sites[[X]], sites.env[[X]]$distance_to_nature_reserve_boundary, add=TRUE, col= "blue", labcex = 0) # set labels manually
+        points(nmds.sites[[X]], col = plot.colors[jaccard.sites.cut[[X]]$jaccard.cut], pch=16)
+        ordisurf(nmds.sites[[X]], sites.env[[X]]$elevation_median, add = TRUE, col = contour.colors["elevation"], labcex = 0) # set labels manually
+        ordisurf(nmds.sites[[X]], sites.env[[X]]$distance_to_nature_reserve_boundary, add = TRUE, col = contour.colors["reserve"], labcex = 0) # set labels manually
         mtext(text = "NMDS1", side = 1, line = 2.2)
         mtext(text = "NMDS2", side = 2, line = 2.2)
         dev.off()
@@ -109,18 +117,17 @@ load(here("rdata","Ailaoshan_environmental.rdata"))
 
     # draw additional NMDS plots with labelled contours
     nmds.labels.filesnames <- list(LSU = here("figures", "Fig5a_nmds_sites_LSU_labels.pdf"), SSU = here("figures", "Fig5b_nmds_sites_SSU_labels.pdf"))
-    # note: hue_pal()(3) gives the default ggplot colours so we can match the colours in other figures
     lapply(names(nmds.sites), function(X) {
         pdf(nmds.labels.filesnames[[X]], width=4, height=4, useDingbats = FALSE)
         par(mar = c(4,4,0,0) + 0.1)
         plot(nmds.sites[[X]], display = "sites", type="n", xlab = "", ylab = "") # set up plot area
-        points(nmds.sites[[X]], col = hue_pal()(3)[jaccard.sites.cut[[X]]$jaccard.cut], pch=16)
-        ordisurf(nmds.sites[[X]], sites.env[[X]]$elevation_median, add=TRUE, col="red")
-        ordisurf(nmds.sites[[X]], sites.env[[X]]$distance_to_nature_reserve_boundary, add=TRUE, col= "blue")
+        points(nmds.sites[[X]], col = plot.colors[jaccard.sites.cut[[X]]$jaccard.cut], pch=16)
+        ordisurf(nmds.sites[[X]], sites.env[[X]]$elevation_median, add = TRUE, col = contour.colors["elevation"])
+        ordisurf(nmds.sites[[X]], sites.env[[X]]$distance_to_nature_reserve_boundary, add = TRUE, col = contour.colors["reserve"])
         mtext(text = "NMDS1", side = 1, line = 2.2)
         mtext(text = "NMDS2", side = 2, line = 2.2)
-        legend(x="topright", legend = c("high", "intermediate", "low"), col = hue_pal()(3), pch = 16)
-        legend(x="bottomleft", legend = c("elevation","distance to reserve edge"), col = c("red","blue"), lwd = 1, seg.len = 1, cex = 0.9, y.intersp=0.8, x.intersp=0.8, text.width=0.525)
+        legend(x="topright", legend = c("high", "intermediate", "low"), col = plot.colors, pch = 16)
+        legend(x="bottomleft", legend = c("elevation","distance to reserve edge"), col = contour.colors, lwd = 1, seg.len = 1, cex = 0.9, y.intersp=0.8, x.intersp=0.8, text.width=0.525)
         dev.off()
     })
 
@@ -134,11 +141,13 @@ load(here("rdata","Ailaoshan_environmental.rdata"))
 
     # draw maps
     ailaoshan.polygons.jaccard %>% ggplot() + geom_sf(aes(fill=jaccard.cut.LSU), size = 0.1, color = 'black') +
-        theme(legend.position=c(0,0), legend.justification=c(0,0), legend.background = element_rect(fill=NA)) + # scale_fill_brewer(direction = -1) +
+        theme(legend.position=c(0,0), legend.justification=c(0,0), legend.background = element_rect(fill=NA)) +
+        scale_fill_manual(values = plot.colors) +
         coord_sf() + labs(fill = "LSU site clusters")
     ggsave(here("figures", "Fig5c_map_sites_LSU.pdf"), width=4, height=4)
     ailaoshan.polygons.jaccard %>% ggplot() + geom_sf(aes(fill=jaccard.cut.SSU), size = 0.1, color = 'black') +
         theme(legend.position=c(0,0), legend.justification=c(0,0), legend.background = element_rect(fill=NA)) +
+        scale_fill_manual(values = plot.colors) +
         coord_sf() + labs(fill = "SSU site clusters")
     ggsave(here("figures", "Fig5d_map_sites_SSU.pdf"), width=4, height=4)
 

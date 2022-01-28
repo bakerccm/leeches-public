@@ -75,10 +75,10 @@ library("coda")
                 # there is just one Ntotal for each model run
                     Ntotal.columns <- grep("^Ntotal", varnames(output.mcmc))
                     Ntotal.mtx <- output.mcmc[,Ntotal.columns,drop=FALSE] %>% as.matrix()
-                
+
                 # which row of Ntotal.summary should results go in?
                     Ntotal.summary.row <- which(Ntotal.summary$dataset == d & Ntotal.summary$M == as.numeric(m))
-                
+
                 # extract summary stats and save to Ntotal.summary
                     Ntotal.summary[Ntotal.summary.row, "mean"] <- mean(Ntotal.mtx)
                     Ntotal.summary[Ntotal.summary.row, "sd"] <- sd(Ntotal.mtx)

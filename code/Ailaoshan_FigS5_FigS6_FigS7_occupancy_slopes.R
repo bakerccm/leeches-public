@@ -17,10 +17,18 @@ library("tidyverse")
     )
     beta.output <- lapply(model.summary, FUN = function (X) lapply(X$beta.output, as.data.frame))
     rm(model.summary)
-    
+
 # relabel (non-avian) reptiles as squamates
-    
+
     taxa <- taxa %>% mutate(class = ifelse(class == "Reptiles", "Squamates", class))
+
+########################################################################################
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("amphibians" = rgb(0, 158, 115, maxColorValue = 255), # bluish green
+                     "birds" = rgb(86, 180, 233, maxColorValue = 255), # sky blue
+                     "mammals" = rgb(230, 159, 0, maxColorValue = 255), # orange
+                     "squamates" = rgb(0, 0, 0, maxColorValue = 255)) # black
 
 ########################################################################################
 # species ordered by environmental coefficients
@@ -46,7 +54,7 @@ library("tidyverse")
             facet_grid(~class, scales = "free_x", space = "free")
 
     # plot for publication
-    LSU.plot.elev
+    LSU.plot.elev + scale_color_manual(values = plot.colors)
     ggsave(here("figures","FigS5_LSU_elev.pdf"), width = 12, height = 6, useDingbats = FALSE)
 
     # same plot with 10kg mammals to assist annotation
@@ -82,7 +90,7 @@ library("tidyverse")
             facet_grid(~class, scales = "free_x", space = "free")
 
     # plot for publication
-    LSU.plot.reserve
+    LSU.plot.reserve + scale_color_manual(values = plot.colors)
     ggsave(here("figures","FigS6_LSU_reserve.pdf"), width = 12, height = 6, useDingbats = FALSE)
 
     # same plot with 10kg mammals to assist annotation
@@ -118,7 +126,7 @@ library("tidyverse")
             facet_grid(~class, scales = "free_x", space = "free")
 
     # plot for publication
-    SSU.plot.elev
+    SSU.plot.elev + scale_color_manual(values = plot.colors)
     ggsave(here("figures","FigS7_SSU_elev.pdf"), width = 12, height = 6, useDingbats = FALSE)
 
     # same plot with 10kg mammals to assist annotation

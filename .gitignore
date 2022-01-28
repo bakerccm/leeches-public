@@ -1,0 +1,12 @@
+*.DS_Store
+*.Rhistory
+
+/.snakemake
+
+/slurm/*
+/sessioninfo
+
+# these files are too big to upload to github
+rdata/Ailaoshan_gis.rdata
+rds/Ailaoshan_model_output_*.rds
+

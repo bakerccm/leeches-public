@@ -10,8 +10,8 @@ library("tidyverse")
 
     # model summaries generated with Ailaoshan_model_summary.R
     model.summary <- list(
-        LSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_LSU.rds")),
-        SSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_SSU.rds"))
+        LSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_LSU_z.rds")),
+        SSU = readRDS(file = here("rds", "Ailaoshan_model_summary_200_final_SSU_z.rds"))
     )
     z.output <- lapply(model.summary, FUN = function (X) as.data.frame(X$z.output))
     rm(model.summary)
@@ -43,15 +43,15 @@ library("tidyverse")
 # test coinertia
 
     RV.rtest(df1 = z$LSU, df2 = z$SSU, nrepet = 999)
-    
+
     # Monte-Carlo test
     # Call: RV.rtest(df1 = z$LSU, df2 = z$SSU, nrepet = 999)
     #
-    # Observation: 0.7686755
+    # Observation: 0.769695
     #
     # Based on 999 replicates
     # Simulated p-value: 0.001
     # Alternative hypothesis: greater
     #
     # Std.Obs  Expectation     Variance
-    # 1.186281e+02 1.590154e-02 4.026746e-05
+    # 1.128773e+02 1.531611e-02 4.466486e-05

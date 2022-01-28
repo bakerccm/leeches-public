@@ -215,7 +215,7 @@ library("ggeffects")
 
     # test statistical significance of correlation
         PolygonID.estimated.richness %>% filter(complete.cases(.)) %>%
-            cor.test(~ mean.LSU + mean.SSU, data = ., alternative = "greater") # cor = 0.856699, t = 18.194, df = 120, p-value < 2.2e-16
+            cor.test(~ mean.LSU + mean.SSU, data = ., alternative = "greater") # cor = 0.8717483, t = 19.491, df = 120, p-value < 2.2e-16
 
 # FigS4f : estimated richness per Polygon_ID scatterplots
 
@@ -225,10 +225,10 @@ library("ggeffects")
     # (note use of linear regression rather than poisson GLM since estimates are not integer like observed values are)
 
         lsu.lm <- lm(mean.LSU ~ log(replicates.LSU), data = PolygonID.estimated.richness)
-        lsu.lm %>% summary() # F-statistic: 0.002832 on 1 and 124 DF,  p-value: 0.9576
+        lsu.lm %>% summary() # F-statistic: 0.005516 on 1 and 124 DF,  p-value: 0.9409
         ssu.lm <- lm(mean.SSU ~ log(replicates.SSU), data = PolygonID.estimated.richness)
-        ssu.lm %>% summary() # F-statistic: 1.479 on 1 and 125 DF,  p-value: 0.2262
-        
+        ssu.lm %>% summary() # F-statistic: 1.493 on 1 and 125 DF,  p-value: 0.224
+
     # so draw scatterplots without LOESS or regression lines
 
         PolygonID.estimated.richness %>%

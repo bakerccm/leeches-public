@@ -24,6 +24,10 @@ library("cowplot")
     Nsite.output <- lapply(model.summary, FUN = function (X) as.data.frame(X$Nsite.output))
     rm(model.summary)
 
+# colorblind-friendly plot colors from Wong 2011 (https://www.nature.com/articles/nmeth.1618)
+
+    plot.colors <- c("estimated" = "black", "observed" = "grey")
+
 # add observed richness data to ailaoshan.polygons sf object
 
     observed.OTU.richness <- leech %>%
@@ -77,22 +81,22 @@ library("cowplot")
     # plot Fig S3a: LSU richness
         OTU.richness %>% filter(dataset == "LSU") %>%
             ggplot(aes(x = richness, color = source)) +
-                geom_histogram(fill = "white", alpha = 0.5, position = "identity", binwidth = 2) + coord_cartesian(xlim=c(0,43), ylim=c(0,55)) +
+                geom_histogram(fill = "white", alpha = 0.5, position = "identity", binwidth = 2) + coord_cartesian(xlim=c(0,46), ylim=c(0,55)) +
                 geom_vline(data = LSU.medians, aes(xintercept = median.richness, color = source), linetype = "dashed") +
-                labs(x = "LSU species richness") +
-                theme(legend.title = element_blank(), legend.position = c(0.825, 0.71), legend.margin=margin(t = 0, r = 0.2, b = 0.2, l = 0.2, unit = "cm")) +
-                geom_label(data = LSU.medians, aes(x = median.richness, y = 54,
+                labs(x = "LSU species richness") + scale_color_manual(values = plot.colors) +
+                theme(legend.title = element_blank(), legend.position = c(0.842, 0.71), legend.margin=margin(t = 0, r = 0.2, b = 0.2, l = 0.2, unit = "cm")) +
+                geom_label(data = LSU.medians, aes(x = median.richness + 0.1, y = 54,
                     label = paste0("median = ", round(median.richness, 0))), show.legend = FALSE, size = 3)
         ggsave(here("figures","FigS3a_LSU_richhist.pdf"), width=4, height=3, useDingbats = FALSE)
 
     # plot Fig S3b: SSU richness
         OTU.richness %>% filter(dataset == "SSU") %>%
             ggplot(aes(x = richness, color = source)) +
-                geom_histogram(fill = "white", alpha = 0.5, position = "identity", binwidth = 2) + coord_cartesian(xlim=c(0,43), ylim=c(0,55)) +
+                geom_histogram(fill = "white", alpha = 0.5, position = "identity", binwidth = 2) + coord_cartesian(xlim=c(0,46), ylim=c(0,55)) +
                 geom_vline(data = SSU.medians, aes(xintercept = median.richness, color = source), linetype = "dashed") +
-                labs(x = "SSU species richness") +
-                theme(legend.title = element_blank(), legend.position = c(0.825, 0.71), legend.margin=margin(t = 0, r = 0.2, b = 0.2, l = 0.2, unit = "cm")) +
-                geom_label(data = SSU.medians, aes(x = median.richness, y = 54,
+                labs(x = "SSU species richness") + scale_color_manual(values = plot.colors) +
+                theme(legend.title = element_blank(), legend.position = c(0.842, 0.71), legend.margin=margin(t = 0, r = 0.2, b = 0.2, l = 0.2, unit = "cm")) +
+                geom_label(data = SSU.medians, aes(x = median.richness + 0.1, y = 54,
                     label = paste0("median = ", round(median.richness, 0))), show.legend = FALSE, size = 3)
         ggsave(here("figures","FigS3b_SSU_richhist.pdf"), width=4, height=3, useDingbats = FALSE)
 

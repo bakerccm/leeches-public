@@ -41,12 +41,12 @@ library("ggspatial")
         plot3D(ailaoshan.srtm.reproj, drape=ailaoshan.srtm.reproj, zfac=3, adjust=FALSE)
         plot3D(ailaoshan.polygons.rast, drape=ailaoshan.polygons.rast, zfac=3, adjust=FALSE, col="red")
         rgl.snapshot(here("figures", "Fig1b_Ailaoshan_site_colour.png"), fmt = "png")
-    
+
     # red on grey
         rgl.clear()
         plot3D(ailaoshan.srtm.reproj, drape=ailaoshan.srtm.reproj, zfac=3, adjust=FALSE, col=gray(seq(0.8, 1, 0.02)))
         plot3D(ailaoshan.polygons.rast, drape=ailaoshan.polygons.rast, zfac=3, adjust=FALSE, col="red")
         rgl.snapshot(here("figures", "Fig1b_Ailaoshan_site_grey.png"), fmt = "png")
-    
+
     # make movie
         #movie3d(spin3d(axis = c(0, 0, 1), rpm = 10), duration = 6, fps = 25, movie="ailaoshan_site", dir = "figures")

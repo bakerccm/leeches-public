@@ -1,10 +1,11 @@
 # Analysis code for Ailaoshan study
 
-[![DOI](https://zenodo.org/badge/432829320.svg)](https://zenodo.org/badge/latestdoi/432829320)
-
 ## Citation
 
-Christopher CM BAKER\*,\*\*, Yinqiu JI\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\*. Measuring Protected-area Vertebrate Biodiversity Using Leech iDNA. **Nature Communications**
+Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\*. Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications**
+
+# Ji et al. (2021) "Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA"
+
 
 \* - equal contributions<br/>
 \*\* - corresponding authors
@@ -25,6 +26,8 @@ Note that some steps in this workflow are computationally intensive and/or have 
 - [config](config) contains [config.yaml](config.yaml) which may be used to store user-specific parameters such as the API key used by [code/Ailaoshan_IUCNdata.R](code/Ailaoshan_IUCNdata.R) to access IUCN data.  An API key is not included in this repository, and you should supply your own if you want to use this code.
 
 - Intermediate and final outputs get saved to [figures](figures), [tables](tables), [fasta](fasta), [rdata](rdata) and [rds](rds). In addition, [preOTU_networks](preOTU_networks) contains the correlation networks of preOTUs used by [Doug Yu](https://github.com/dougwyu) to generate the final OTUs. Some intermediate and final output files are included here to facilitate re-analysis of our results, but these can all be re-generated using the original input data and code in this repository.
+
+- [scripts](scripts) and [slurm](slurm) may be used to locate files such as batch submission scripts, stdout and stderr files if running parts of the workflow in a cluster environment.
 
 ## Further information
 

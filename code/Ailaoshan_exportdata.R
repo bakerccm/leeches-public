@@ -20,7 +20,7 @@ library("writexl")
     rm(model.summary)
 
 # relabel (non-avian) reptiles as squamates
-    
+
     leech <- leech %>% mutate(consensus.class = ifelse(consensus.class == "Reptiles", "Squamates", consensus.class))
 
     leech.supplement <- leech.supplement %>% mutate(consensus.class = ifelse(consensus.class == "Reptiles", "Squamates", consensus.class))
@@ -98,12 +98,12 @@ library("writexl")
         # make IUCN category '--' if not available
             mutate(`IUCN category` = ifelse(is.na(`IUCN category`), "--", `IUCN category`)) %>%
         select(-consensus.short.italics, -consensus.genus.italics, -genus, -species, -`Chinese common name`, -`estimated occupancy`, -`estimated occupancy 95%`)
-        
+
         Table_1_2_data %>% filter(dataset == "LSU") %>% select(-dataset) %>%
             write.table(here("tables","Table1_top20_OTUs_LSU_latex.txt"), quote = FALSE, sep = " & ", row.names = FALSE, eol = " \\\\\n")
         Table_1_2_data %>% filter(dataset == "SSU") %>% select(-dataset) %>%
             write.table(here("tables","Table2_top20_OTUs_SSU_latex.txt"), quote = FALSE, sep = " & ", row.names = FALSE, eol = " \\\\\n")
-        
+
  # examine domesticated species and IUCN categories
 
     # domesticated animals

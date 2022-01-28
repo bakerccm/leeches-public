@@ -211,7 +211,7 @@ library("tidyverse")
 
     b.values <- list(`100` = 0.6, `150` = 3.3, `200` = 6.1)
     b <- b.values[[M]]
-    
+
 # save number of detected species to facilitate modelling only these species with occupancy covariates
 #  - species 1:num.detected.species are the original detected species (e.g. first num.detected.species rows of y[[]])
 #  - species (num.detected.species + 1):M are the augmented species
