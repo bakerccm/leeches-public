@@ -2,9 +2,9 @@
 
 [![DOI](https://zenodo.org/badge/432829320.svg)](https://zenodo.org/badge/latestdoi/432829320)
 
-## Citation
+This repository contains analysis code (including Bayesian site occupancy modelling) for the following article:
 
-Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\*. Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications**
+Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\* (*in press*, 2022). Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications**
 
 \* - equal contributions<br/>
 \*\* - corresponding authors
