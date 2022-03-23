@@ -4,12 +4,10 @@
 
 This repository contains analysis code (including Bayesian site occupancy modelling) for the following article:
 
-Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\* (*in press*, 2022). Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications**
+Yinqiu JI\*, Christopher CM BAKER\*,\*\*, Viorel D POPESCU, Jiaxin WANG, Chunying WU, Zhengyang WANG, Yuanheng LI, Lin WANG, Chaolang HUA, Zhongxing YANG, Chunyan YANG, Charles CY XU, Alex DIANA, Qingzhong WEN, Naomi E PIERCE\*\* and Douglas W YU\*\* (2022). Measuring Protected-Area Effectiveness using Vertebrate Distributions from Leech iDNA. **Nature Communications** 13:1555 [doi:10.1038/s41467-022-28778-8](https://doi.org/10.1038/s41467-022-28778-8)
 
 \* - equal contributions<br/>
 \*\* - corresponding authors
-
-A preprint of this study is available from bioRxiv at [https://www.biorxiv.org/content/10.1101/2020.02.10.941336v3](https://www.biorxiv.org/content/10.1101/2020.02.10.941336v3) (doi:10.1101/2020.02.10.941336)
 
 ## Workflow and repository structure
 
